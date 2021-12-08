@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
-const { isAuthenticated, isAdmin } = require("./../middleware/jwt.middleware");
+const { isAuthenticated } = require("./../middleware/jwt.middleware");
 
 const saltRounds = 10;
 
@@ -12,11 +12,20 @@ const saltRounds = 10;
 router.post("/auth/signup", async (req, res, next) => {
   try {
     // Get the data from req.body
-    const { email, password, name } = req.body;
+    const { username, email, password, profilePicture, favoriteGenres } =
+      req.body;
 
     // Validate that values are not empty strings
-    if (email === "" || password === "" || name === "") {
-      res.status(400).json({ message: "Provide email, password and name." });
+    if (
+      email === "" ||
+      password === "" ||
+      username === "" ||
+      profilePicture === "" ||
+      favoriteGenres === []
+    ) {
+      res
+        .status(400)
+        .json({ message: "Provide all the information required." });
       return;
     }
 
@@ -52,16 +61,18 @@ router.post("/auth/signup", async (req, res, next) => {
 
     // Create the new user in the DB
     const createdUser = await User.create({
+      username,
       email,
       password: hashedPassword,
-      name,
+      profilePicture,
+      favoriteGenres,
     });
 
     // We should never expose passwords publicly
     const user = {
       _id: createdUser._id,
       email: createdUser.email,
-      name: createdUser.name,
+      username: createdUser.username,
     };
 
     // Send the response back
@@ -75,19 +86,19 @@ router.post("/auth/signup", async (req, res, next) => {
 router.post("/auth/login", async (req, res, next) => {
   try {
     // Get values from req.body
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     // Validate that values are not empty strings
-    if (email === "" || password === "") {
-      res.status(400).json({ message: "Provide email and password" });
+    if (username === "" || password === "") {
+      res.status(400).json({ message: "Provide username and password" });
       return;
     }
 
     // Check if the user exists
-    const foundUser = await User.findOne({ email: email });
+    const foundUser = await User.findOne({ username: username });
 
     if (!foundUser) {
-      res.status(400).json({ message: "Provide a valid email" });
+      res.status(400).json({ message: "Provide a valid username" });
       return;
     }
 
@@ -99,9 +110,9 @@ router.post("/auth/login", async (req, res, next) => {
       const payload = {
         _id: foundUser._id,
         email: foundUser.email,
-        name: foundUser.name,
-        role: foundUser.role, // 'admin' or 'user'
-        image: foundUser.image, 
+        username: foundUser.username,
+        profilePicture: foundUser.profilePicture,
+        favoriteGenres: foundUser.favoriteGenres,
       };
 
       // Create a JWT with the payload
