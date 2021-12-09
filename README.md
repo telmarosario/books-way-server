@@ -22,7 +22,7 @@ BooksWay is a web app to sell and trade books
 - **Delete book:** As a user, I can delete a book once I have sold it.
 - **View book details:** As a user, I can click on a book on the homepage and view its details. I can see the condition of the book, as well as, the title, price (if applicable), and which user is selling it.
 - **Add book to favorites:** As I user, I can save the books I'm interested in by clicking on the heart on the book details view.
-- **View other users' profile**s**:** As a user I can click on other usernames in the book details and go to their profile pages. I can see their contact information and all the books they are selling or trading.
+- **View other users' profiles:** As a user I can click on other usernames in the book details and go to their profile pages. I can see their contact information and all the books they are selling or trading.
 
 ## Backlog
 
