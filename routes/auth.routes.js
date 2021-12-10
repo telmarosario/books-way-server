@@ -12,15 +12,13 @@ const saltRounds = 10;
 router.post("/auth/signup", async (req, res, next) => {
   try {
     // Get the data from req.body
-    const { username, email, password, profilePicture, favoriteGenres } =
-      req.body;
+    const { username, email, password, favoriteGenres, imageUrl } = req.body;
 
     // Validate that values are not empty strings
     if (
       email === "" ||
       password === "" ||
       username === "" ||
-      profilePicture === "" ||
       favoriteGenres === []
     ) {
       res
@@ -64,7 +62,7 @@ router.post("/auth/signup", async (req, res, next) => {
       username,
       email,
       password: hashedPassword,
-      profilePicture,
+      imageUrl,
       favoriteGenres,
     });
 
@@ -111,7 +109,7 @@ router.post("/auth/login", async (req, res, next) => {
         _id: foundUser._id,
         email: foundUser.email,
         username: foundUser.username,
-        profilePicture: foundUser.profilePicture,
+        imageUrl: foundUser.imageUrl,
         favoriteGenres: foundUser.favoriteGenres,
       };
 

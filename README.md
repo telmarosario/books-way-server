@@ -77,7 +77,7 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  profilePicture: { type: String, required: true },
+  imageUrl: { type: String, required: true },
   favoriteGenres: [{ type: String, required: true }],
   booksSaleTrade: [{ type: Schema.Types.ObjectId, ref: "Book" }],
   savedBooks: [{ type: Schema.Types.ObjectId, ref: "Book" }],
@@ -92,6 +92,7 @@ const bookSchema = new Schema({
   condition: { type: String, required: true },
   tradeOrSale: { type: String, enum: ["trade", "sale"], required: true },
   price: { type: Number },
+  imageUrl: { type: String, required: true },
   genre: { type: String, required: true },
   userOwner: { type: Schema.Types.ObjectId, ref: "user" },
 });

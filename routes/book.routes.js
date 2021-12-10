@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 // GET - 	/api/books Get all the books
 router.get("/api/books", async (req, res, next) => {
   try {
-    const allBooks = await Book.find();
+    const allBooks = await Book.find(null, null, { sort: { createdAt: -1 } });
     res.status(200).json(allBooks);
   } catch (error) {
     res.status(500).json(error);
@@ -34,15 +34,17 @@ router.get("/api/books/:bookId", isAuthenticated, async (req, res, next) => {
 // POST - /api/books Create a new book
 router.post("/api/books", isAuthenticated, async (req, res, next) => {
   try {
-    const { title, condition, tradeOrSale, price, genre } = req.body;
+    const { title, condition, saleOption, bookGenre, price, imageUrl } =
+      req.body;
     const userOwner = req.payload._id;
 
     const createdBook = await Book.create({
       title,
       condition,
-      tradeOrSale,
+      tradeOrSale: saleOption,
       price,
-      genre,
+      genre: bookGenre,
+      imageUrl,
       userOwner,
     });
 
