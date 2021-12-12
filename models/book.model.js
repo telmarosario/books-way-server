@@ -5,7 +5,7 @@ const bookSchema = new Schema(
   {
     title: { type: String, required: true },
     condition: { type: String, required: true },
-    tradeOrSale: { type: String, enum: ["trade", "sale"], required: true },
+    tradeOrSale: { type: String, enum: ["Trade", "Sale"], required: true },
     price: { type: Number },
     genre: { type: String, required: true },
     imageUrl: { type: String, required: true },
