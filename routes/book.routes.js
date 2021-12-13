@@ -69,27 +69,21 @@ router.put("/api/books/:bookId", isAuthenticated, async (req, res, next) => {
     }
 
     const foundBook = await Book.findById(bookId);
-    const { title, condition, tradeOrSale, price, genre } = req.body;
-
-    //! Back end validation doesn't work
-    /*     if (currentUser !== foundBook.userOwner) {
-      console.log("this " + foundBook.userOwner);
-      console.log("that " + currentUser);
-      res.status(403).json({ message: "Forbidden" });
-      return;
-    } else if (currentUser === foundBook.userOwner) {
-      const updatedBook = await Book.findByIdAndUpdate(
-        foundBook,
-        { title, condition, tradeOrSale, price, genre },
-        { new: true }
-      );
-      res.status(200).json(updatedBook);
-      return;
-    } */
+    const { title, condition, saleOption, bookGenre, price, imageUrl } =
+      req.body;
+    const userOwner = req.payload._id;
 
     const updatedBook = await Book.findByIdAndUpdate(
       foundBook,
-      { title, condition, tradeOrSale, price, genre },
+      {
+        title,
+        condition,
+        tradeOrSale: saleOption,
+        price,
+        genre: bookGenre,
+        imageUrl,
+        userOwner,
+      },
       { new: true }
     );
     res.status(200).json(updatedBook);
