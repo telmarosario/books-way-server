@@ -27,6 +27,12 @@ app.use("/", userRoutes);
 const bookRoutes = require("./routes/book.routes");
 app.use("/", bookRoutes);
 
+const conversationRoutes = require("./routes/conversation.routes");
+app.use("/", conversationRoutes);
+
+const messageRoutes = require("./routes/messages.routes");
+app.use("/", messageRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
